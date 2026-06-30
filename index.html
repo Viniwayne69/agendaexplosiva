@@ -14,15 +14,16 @@
       --brown-live: #745143;
       --cream: #f6eee7;
       --cream-2: #efe2d8;
-      --rose: #f0a8ad;
-      --rose-dark: #cf7f86;
-      --rose-soft: #ffd5d8;
+      --rose: #bd5365;
+      --rose-dark: #bd5365;
+      --rose-soft: #bd5365;
+      --rose-contrast: #bd5365;
       --gold: #c69a72;
       --nude: #d9b4a2;
       --text: #fffaf6;
       --muted: #f1ddd4;
       --ink: #211916;
-      --border: rgba(201, 130, 134, 0.38);
+      --border: rgba(189, 83, 101, 0.38);
       --shadow: 0 24px 70px rgba(0, 0, 0, 0.26);
       --serif: "Open Sans", "Segoe UI", Arial, sans-serif;
       --sans: "Open Sans", "Segoe UI", Arial, sans-serif;
@@ -42,6 +43,8 @@
       color: var(--text);
       font-family: var(--sans);
       line-height: 1.55;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
     }
 
     .scroll-progress {
@@ -59,7 +62,7 @@
       width: 0%;
       height: 100%;
       background: linear-gradient(90deg, var(--rose-dark) 0%, var(--rose) 45%, var(--gold) 100%);
-      box-shadow: 0 0 14px rgba(201, 130, 134, 0.34);
+      box-shadow: 0 0 14px rgba(189, 83, 101, 0.34);
       transition: width 80ms linear;
     }
 
@@ -85,7 +88,7 @@
       width: 100%;
       height: 0%;
       background: linear-gradient(180deg, var(--rose-dark) 0%, var(--rose) 45%, var(--gold) 100%);
-      box-shadow: 0 0 14px rgba(201, 130, 134, 0.3);
+      box-shadow: 0 0 14px rgba(189, 83, 101, 0.3);
       transition: height 80ms linear;
     }
 
@@ -117,13 +120,14 @@
       justify-content: center;
       padding: 8px 14px;
       border-radius: 4px;
-      background: linear-gradient(135deg, var(--rose), var(--rose-soft));
+      background: var(--rose);
       color: #fff;
       font-size: 0.78rem;
-      font-weight: 800;
+      font-weight: 900;
       text-transform: uppercase;
       letter-spacing: 0;
-      box-shadow: 0 12px 35px rgba(201, 130, 134, 0.22);
+      text-shadow: 0 1px 5px rgba(86, 42, 45, 0.38);
+      box-shadow: 0 12px 35px rgba(189, 83, 101, 0.24);
     }
 
     .serif {
@@ -143,10 +147,10 @@
       min-height: 58px;
       align-items: center;
       justify-content: center;
-      border: 0;
+      border: 2px solid rgba(255, 255, 255, 0.26);
       border-radius: 8px;
       padding: 17px 30px;
-      background: linear-gradient(135deg, var(--rose), #d89599);
+      background: var(--rose);
       color: #fff;
       font-weight: 900;
       text-transform: uppercase;
@@ -155,14 +159,15 @@
       text-align: center;
       white-space: normal;
       cursor: pointer;
-      box-shadow: 0 18px 38px rgba(158, 82, 87, 0.26);
-      transition: transform 180ms ease, filter 180ms ease, box-shadow 180ms ease;
+      box-shadow: 0 18px 38px rgba(189, 83, 101, 0.26);
+      transition: transform 180ms ease, filter 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
     }
 
     .btn:hover {
       transform: translateY(-2px) scale(1.015);
       filter: brightness(1.06);
-      box-shadow: 0 22px 48px rgba(158, 82, 87, 0.34);
+      border-color: rgba(255, 255, 255, 0.46);
+      box-shadow: 0 22px 48px rgba(189, 83, 101, 0.34);
     }
 
     .btn.dark {
@@ -302,7 +307,10 @@
       font-size: clamp(3.15rem, 6.5vw, 6.9rem);
       color: #fffdf9;
       font-weight: 900;
-      text-shadow: 0 3px 18px rgba(58, 35, 27, 0.28);
+      text-shadow: 0 3px 18px rgba(42, 24, 19, 0.42);
+      word-break: normal;
+      overflow-wrap: normal;
+      text-wrap: balance;
     }
 
     .hero .lead {
@@ -310,19 +318,19 @@
       margin: 0 0 20px;
       color: #fff;
       font-size: 1.05rem;
-      font-weight: 750;
+      font-weight: 900;
       text-transform: uppercase;
       line-height: 1.45;
-      text-shadow: 0 2px 10px rgba(45, 28, 23, 0.22);
+      text-shadow: 0 2px 12px rgba(42, 24, 19, 0.38);
     }
 
     .hero .sublead {
       max-width: 540px;
       margin: 0 0 34px;
-      color: var(--text);
+      color: #fffdf9;
       font-size: 1.02rem;
-      font-weight: 600;
-      text-shadow: 0 2px 10px rgba(45, 28, 23, 0.18);
+      font-weight: 800;
+      text-shadow: 0 2px 12px rgba(42, 24, 19, 0.34);
     }
 
     .hero-visual-mobile {
@@ -332,8 +340,9 @@
 
     .hero-visual-mobile img {
       width: 100%;
-      border-radius: 0;
-      filter: drop-shadow(0 22px 46px rgba(0, 0, 0, 0.4));
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      filter: drop-shadow(0 22px 46px rgba(0, 0, 0, 0.34));
     }
 
     .hero-actions {
@@ -346,8 +355,9 @@
       display: inline-flex;
       align-items: center;
       gap: 7px;
-      color: #eee4df;
+      color: #fff8f4;
       font-size: 0.9rem;
+      font-weight: 700;
     }
 
     .secure svg {
@@ -365,7 +375,8 @@
 
     .hero-image {
       width: min(760px, 100%);
-      border-radius: 0;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
       filter: drop-shadow(0 34px 70px rgba(0, 0, 0, 0.48));
       transform: translate3d(0, var(--parallax-y, 0px), 0);
       transition: transform 120ms linear;
@@ -376,10 +387,10 @@
       display: grid;
       min-height: 360px;
       place-items: center;
-      border: 1px solid rgba(201, 130, 134, 0.36);
+      border: 1px solid rgba(189, 83, 101, 0.36);
       border-radius: 14px;
       background:
-        radial-gradient(circle at 22% 20%, rgba(201, 130, 134, 0.22), transparent 30%),
+        radial-gradient(circle at 22% 20%, rgba(189, 83, 101, 0.22), transparent 30%),
         linear-gradient(135deg, #120e0d, #2b1a17);
       color: var(--gold);
       font-family: var(--serif);
@@ -424,7 +435,9 @@
     .about p {
       max-width: 540px;
       margin: 0 0 28px;
-      color: #3d302c;
+      color: #241916;
+      font-weight: 700;
+      font-size: 1.02rem;
     }
 
     .about h2,
@@ -435,6 +448,13 @@
       text-shadow: none;
     }
 
+    .about h2 .rose,
+    .testimonials h2 .rose,
+    .bonus h2 .rose,
+    .pricing h2 .rose {
+      color: var(--rose-contrast);
+    }
+
     .mockup-wrap {
       margin-top: 18px;
       max-width: 560px;
@@ -442,7 +462,8 @@
 
     .mockup-wrap img {
       border-radius: 10px;
-      filter: drop-shadow(0 24px 48px rgba(42, 30, 25, 0.24));
+      border: 1px solid rgba(40, 24, 20, 0.1);
+      filter: drop-shadow(0 24px 48px rgba(42, 30, 25, 0.18));
       transform: translate3d(0, var(--parallax-y, 0px), 0);
       transition: transform 120ms linear;
       will-change: transform;
@@ -459,8 +480,8 @@
       display: flex;
       align-items: center;
       gap: 18px;
-      color: var(--ink);
-      font-weight: 650;
+      color: #1d120f;
+      font-weight: 800;
     }
 
     .check {
@@ -469,10 +490,10 @@
       height: 36px;
       place-items: center;
       border-radius: 50%;
-      background: linear-gradient(135deg, var(--rose), #c49a98);
+      background: var(--rose);
       color: #fff;
       font-weight: 900;
-      box-shadow: 0 12px 25px rgba(201, 130, 134, 0.25);
+      box-shadow: 0 12px 25px rgba(189, 83, 101, 0.25);
       flex: 0 0 auto;
     }
 
@@ -496,6 +517,10 @@
       grid-template-columns: 68px 1fr;
       gap: 20px;
       align-items: center;
+      padding: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.08);
     }
 
     .benefit-icon,
@@ -504,7 +529,7 @@
       display: grid;
       place-items: center;
       border-radius: 50%;
-      background: linear-gradient(135deg, var(--rose), #d6a2a4);
+      background: var(--rose);
       color: #fff;
       box-shadow: 0 18px 34px rgba(0, 0, 0, 0.2);
     }
@@ -518,9 +543,9 @@
     .audience h3,
     .bonus h3 {
       margin: 0 0 4px;
-      color: var(--rose-soft);
+      color: #fffdf9;
       font-size: 1.02rem;
-      font-weight: 800;
+      font-weight: 900;
       line-height: 1.2;
     }
 
@@ -530,15 +555,15 @@
     .receive li,
     .faq p {
       margin: 0;
-      color: #fff6f1;
-      font-weight: 600;
+      color: #fffaf6;
+      font-weight: 700;
     }
 
     .urgency {
       padding: 36px 0;
       background: var(--brown);
-      border-top: 1px solid rgba(255, 255, 255, 0.07);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+      border-top: 1px solid rgba(255, 255, 255, 0.18);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.18);
     }
 
     .urgency-grid {
@@ -546,6 +571,10 @@
       grid-template-columns: auto 1fr auto;
       align-items: center;
       gap: 26px;
+      padding: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.07);
     }
 
     .urgency-icon {
@@ -567,17 +596,15 @@
 
     .urgency p {
       margin: 0;
-      color: #fff6f1;
+      color: #fffaf6;
       font-size: 1.02rem;
-      font-weight: 600;
+      font-weight: 800;
     }
 
     .testimonials,
     .bonus,
     .pricing {
-      background:
-        radial-gradient(circle at 8% 0%, rgba(201, 130, 134, 0.16), transparent 28%),
-        linear-gradient(135deg, #fbf2eb, var(--cream-2));
+      background: #f7eee8;
       color: var(--ink);
       padding: 48px 0 58px;
     }
@@ -609,10 +636,10 @@
       align-items: center;
       min-height: 190px;
       padding: 24px;
-      border: 1px solid rgba(201, 130, 134, 0.45);
+      border: 1px solid rgba(189, 83, 101, 0.34);
       border-radius: 8px;
-      background: rgba(255, 249, 246, 0.65);
-      box-shadow: 0 18px 38px rgba(76, 46, 38, 0.08);
+      background: rgba(255, 255, 255, 0.72);
+      box-shadow: 0 18px 38px rgba(76, 46, 38, 0.1);
     }
 
     .portrait {
@@ -620,11 +647,10 @@
       height: 96px;
       border-radius: 50%;
       object-fit: cover;
-      background:
-        radial-gradient(circle at 50% 22%, #f1c7b5 0 18%, transparent 19%),
-        radial-gradient(circle at 50% 42%, #6f463b 0 30%, transparent 31%),
-        linear-gradient(135deg, #c98286, #f2d6c8);
-      border: 3px solid rgba(255, 255, 255, 0.78);
+      object-position: center top;
+      background: #ead4ca;
+      border: 3px solid #fff;
+      box-shadow: 0 12px 26px rgba(54, 33, 26, 0.14);
     }
 
     .stars {
@@ -632,17 +658,20 @@
       font-size: 1.2rem;
       letter-spacing: 2px;
       margin-bottom: 8px;
+      font-weight: 900;
     }
 
     .testimonial-card blockquote {
       margin: 0 0 12px;
-      color: #3a2824;
+      color: #211613;
       font-size: 1.08rem;
+      font-weight: 700;
       line-height: 1.32;
     }
 
     .testimonial-card cite {
-      color: #4d3933;
+      color: #2d201c;
+      font-weight: 700;
       font-style: normal;
       font-size: 0.9rem;
     }
@@ -650,6 +679,8 @@
     .dark-pair {
       background: var(--brown);
       color: var(--text);
+      border-top: 1px solid rgba(255, 255, 255, 0.13);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.13);
     }
 
     .dark-pair-grid {
@@ -673,22 +704,30 @@
       text-align: center;
     }
 
+    .audience-grid article {
+      padding: 18px 12px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.07);
+    }
+
     .audience-icon {
       width: 62px;
       height: 62px;
       margin: 0 auto 14px;
       background: transparent;
-      color: var(--rose);
+      color: #fffdf9;
       box-shadow: none;
     }
 
     .audience h3 {
       min-height: 45px;
-      color: var(--rose-soft);
+      color: #fffdf9;
     }
 
     .audience p {
       font-size: 0.92rem;
+      color: #fffaf6;
     }
 
     .receive {
@@ -702,7 +741,7 @@
       bottom: -42px;
       width: 240px;
       height: 240px;
-      border: 16px solid rgba(201, 130, 134, 0.11);
+      border: 16px solid rgba(189, 83, 101, 0.11);
       border-radius: 24px;
       transform: rotate(-12deg);
     }
@@ -723,6 +762,13 @@
       display: flex;
       align-items: flex-start;
       gap: 11px;
+    }
+
+    .receive li {
+      padding: 10px 12px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.12);
     }
 
     .receive .check,
@@ -750,25 +796,30 @@
       grid-template-columns: 58px 1fr;
       align-items: center;
       gap: 14px;
+      padding: 14px;
+      border: 1px solid rgba(189, 83, 101, 0.18);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.6);
     }
 
     .bonus-icon {
       width: 54px;
       height: 54px;
       border-radius: 8px;
-      background: rgba(201, 130, 134, 0.12);
+      background: rgba(189, 83, 101, 0.14);
       color: var(--rose);
       box-shadow: none;
     }
 
     .bonus h3 {
-      color: var(--rose);
+      color: var(--rose-contrast);
       font-size: 0.9rem;
       text-transform: uppercase;
     }
 
     .bonus p {
-      color: var(--ink);
+      color: #241916;
+      font-weight: 700;
       line-height: 1.22;
     }
 
@@ -791,19 +842,17 @@
     .price-card {
       position: relative;
       padding: 36px clamp(24px, 4vw, 54px);
-      border: 1px solid rgba(41, 29, 24, 0.22);
+      border: 1px solid rgba(41, 29, 24, 0.18);
       border-radius: 8px;
-      background: rgba(255, 249, 246, 0.64);
-      box-shadow: 0 20px 45px rgba(70, 43, 34, 0.08);
+      background: rgba(255, 255, 255, 0.76);
+      box-shadow: 0 20px 45px rgba(70, 43, 34, 0.1);
     }
 
     .price-card.featured {
-      background:
-        radial-gradient(circle at 92% 8%, rgba(201, 130, 134, 0.18), transparent 34%),
-        linear-gradient(135deg, #070707, #171312);
+      background: #5f4035;
       color: var(--text);
       border: 2px solid var(--rose);
-      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.28);
+      box-shadow: 0 24px 70px rgba(68, 42, 34, 0.28);
     }
 
     .popular {
@@ -814,7 +863,7 @@
       min-width: 190px;
       padding: 7px 16px;
       border-radius: 5px;
-      background: linear-gradient(135deg, var(--rose), #d59a9d);
+      background: var(--rose);
       color: #fff;
       text-align: center;
       font-size: 0.82rem;
@@ -824,7 +873,7 @@
 
     .price-card h3 {
       margin: 0;
-      color: var(--rose);
+      color: var(--rose-contrast);
       text-align: center;
       font-size: 1.5rem;
       text-transform: uppercase;
@@ -834,6 +883,7 @@
       margin: 2px 0 26px;
       text-align: center;
       color: inherit;
+      font-weight: 700;
     }
 
     .price-body {
@@ -859,6 +909,7 @@
       opacity: 0.84;
       text-decoration: line-through;
       margin: 0;
+      font-weight: 700;
     }
 
     .today {
@@ -878,13 +929,14 @@
     .price {
       font-size: 4rem;
       font-weight: 950;
-      color: #090909;
+      color: #1d120f;
       line-height: 1;
     }
 
     .featured .price-list li,
     .featured .subtitle {
       color: var(--text);
+      font-weight: 800;
     }
 
     .price-card .btn {
@@ -910,9 +962,9 @@
     }
 
     .faq-item {
-      border: 1px solid rgba(201, 130, 134, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.18);
       border-radius: 8px;
-      background: rgba(255, 255, 255, 0.035);
+      background: rgba(255, 255, 255, 0.08);
       overflow: hidden;
     }
 
@@ -962,9 +1014,7 @@
     .final {
       min-height: 285px;
       padding: 46px 0 34px;
-      background:
-        linear-gradient(90deg, rgba(250, 226, 219, 0.15), rgba(201, 130, 134, 0.35)),
-        linear-gradient(135deg, #f4d8ce, #f0aeb5);
+      background: #f4ded4;
       color: var(--ink);
     }
 
@@ -993,8 +1043,9 @@
 
     .final p {
       margin: 0;
-      color: #4a332e;
+      color: #281a16;
       font-size: 1.05rem;
+      font-weight: 800;
     }
 
     .final h2 {
@@ -1018,7 +1069,7 @@
     @media (max-width: 980px) {
       .hero {
         min-height: auto;
-        padding-top: 56px;
+        padding-top: 48px;
       }
 
       .hero-grid,
@@ -1043,7 +1094,7 @@
 
       .about-panel,
       .benefits-panel {
-        padding: 54px 24px;
+        padding: 46px 24px;
       }
 
       .benefits .split > .benefits-panel:first-child {
@@ -1093,22 +1144,41 @@
       }
 
       .hero {
-        padding: 42px 0 44px;
+        padding: 34px 0 42px;
       }
 
       .hero h1 {
-        font-size: clamp(2.35rem, 12vw, 3.3rem);
-        line-height: 1.03;
-        overflow-wrap: anywhere;
+        max-width: 100%;
+        margin-top: 20px;
+        margin-bottom: 18px;
+        font-size: clamp(1.78rem, 8vw, 2.28rem);
+        line-height: 1.14;
+        letter-spacing: 0;
+        word-break: normal;
+        overflow-wrap: normal;
       }
 
-      .hero .lead,
+      .hero-visual-mobile {
+        margin-bottom: 22px;
+      }
+
+      .hero .lead {
+        font-size: 0.96rem;
+        line-height: 1.55;
+        font-weight: 900;
+        color: #ffffff;
+      }
+
       .hero .sublead {
         font-size: 0.95rem;
+        line-height: 1.62;
+        font-weight: 800;
+        color: #ffffff;
       }
 
       .btn {
         width: 100%;
+        min-height: 56px;
         padding-left: 18px;
         padding-right: 18px;
         text-align: center;
@@ -1130,11 +1200,16 @@
       .bonus h2,
       .pricing h2,
       .faq h2 {
-        font-size: 2.05rem;
+        font-size: clamp(1.65rem, 7vw, 2rem);
+        line-height: 1.12;
+      }
+
+      .about-panel {
+        padding: 38px 20px;
       }
 
       .benefits-panel {
-        padding: 34px 22px 38px;
+        padding: 34px 18px 38px;
       }
 
       .benefits h2 {
@@ -1153,13 +1228,14 @@
       }
 
       .benefit {
-        grid-template-columns: 54px 1fr;
-        gap: 14px;
+        grid-template-columns: 48px 1fr;
+        gap: 13px;
+        padding: 15px;
       }
 
       .benefit-icon {
-        width: 52px;
-        height: 52px;
+        width: 48px;
+        height: 48px;
       }
 
       .benefit h3 {
@@ -1176,11 +1252,12 @@
         grid-template-columns: 1fr;
         text-align: center;
         justify-items: center;
+        padding: 22px 18px;
       }
 
       .audience,
       .receive {
-        padding: 34px 16px;
+        padding: 34px 14px;
       }
 
       .audience h2,
@@ -1193,17 +1270,17 @@
 
       .audience-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 12px;
+        gap: 10px;
       }
 
       .audience-grid article {
         display: grid;
         align-content: start;
-        min-height: 190px;
-        padding: 16px 10px;
-        border: 1px solid rgba(201, 130, 134, 0.2);
+        min-height: 176px;
+        padding: 14px 9px;
+        border: 1px solid rgba(255, 255, 255, 0.16);
         border-radius: 8px;
-        background: rgba(255, 255, 255, 0.035);
+        background: rgba(255, 255, 255, 0.08);
       }
 
       .audience-icon {
@@ -1238,16 +1315,24 @@
       }
 
       .price-card {
-        padding: 34px 18px;
+        padding: 34px 18px 28px;
+      }
+
+      .price-card.featured {
+        margin-top: 14px;
       }
 
       .price {
-        font-size: 3.4rem;
+        font-size: 3.25rem;
       }
 
       .final::before {
         width: 100%;
         opacity: 0.18;
+      }
+
+      .side-progress {
+        width: 3px;
       }
     }
   </style>
@@ -1505,6 +1590,7 @@
                 <li><span class="check">✓</span>Checklist</li>
                 <li><span class="check">✓</span>Frases prontas</li>
                 <li><span class="check">✓</span>Modelos de mensagens</li>
+                <li><span class="check">✓</span>Grupo Designers da Elite no WhatsApp</li>
               </ul>
               <div class="value">
                 <p>Valor total:</p>
@@ -1512,7 +1598,7 @@
                 <p>Bônus: R$127</p>
                 <p>Total: R$224</p>
                 <p class="today">Hoje:</p>
-                <p class="installments">12x de R$2,90</p>
+                <p class="installments">3x de R$9,50</p>
                 <p>ou R$27 à vista</p>
               </div>
             </div>
@@ -1529,11 +1615,11 @@
         <div class="faq-grid">
           <article class="faq-item open">
             <button class="faq-question" type="button">Preciso ter muitos seguidores?<span>+</span></button>
-            <div class="faq-answer"><p>Não. O método foi pensado para aplicação simples.</p></div>
+            <div class="faq-answer"><p>Não, o método foi pensado para aplicação simples.</p></div>
           </article>
           <article class="faq-item">
             <button class="faq-question" type="button">Sou iniciante, funciona para mim?<span>+</span></button>
-            <div class="faq-answer"><p>Sim. O conteúdo é direto e pode ser aplicado por iniciantes.</p></div>
+            <div class="faq-answer"><p>Sim, o conteúdo é direto e pode ser aplicado por iniciantes.</p></div>
           </article>
           <article class="faq-item">
             <button class="faq-question" type="button">Em quanto tempo recebo acesso?<span>+</span></button>
@@ -1541,11 +1627,11 @@
           </article>
           <article class="faq-item">
             <button class="faq-question" type="button">Vou ter acesso para sempre?<span>+</span></button>
-            <div class="faq-answer"><p>Depende da configuração escolhida na plataforma.</p></div>
+            <div class="faq-answer"><p>Sim! terá acesso vitalício.</p></div>
           </article>
           <article class="faq-item">
             <button class="faq-question" type="button">Tem garantia?<span>+</span></button>
-            <div class="faq-answer"><p>Sim. Você terá garantia de 7 dias.</p></div>
+            <div class="faq-answer"><p>Sim, você terá garantia de 7 dias.</p></div>
           </article>
           <article class="faq-item">
             <button class="faq-question" type="button">Como vou assistir?<span>+</span></button>

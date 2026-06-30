@@ -1,0 +1,1366 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agenda Explosiva | O Método 3D</title>
+  <style>
+    :root {
+      --black: #080807;
+      --black-soft: #151211;
+      --brown: #251815;
+      --cream: #f6eee7;
+      --cream-2: #efe2d8;
+      --rose: #c98286;
+      --rose-dark: #a95f63;
+      --rose-soft: #e6b8ba;
+      --gold: #c69a72;
+      --nude: #d9b4a2;
+      --text: #f9f3ee;
+      --muted: #c7b6ad;
+      --ink: #211916;
+      --border: rgba(201, 130, 134, 0.38);
+      --shadow: 0 24px 70px rgba(0, 0, 0, 0.26);
+      --serif: "Cormorant Garamond", "Playfair Display", Georgia, serif;
+      --sans: "Montserrat", "Inter", "Segoe UI", Arial, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--black);
+      color: var(--text);
+      font-family: var(--sans);
+      line-height: 1.55;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .section {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .container {
+      width: min(1180px, calc(100% - 42px));
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 14px;
+      border-radius: 4px;
+      background: linear-gradient(135deg, var(--rose), var(--rose-soft));
+      color: #fff;
+      font-size: 0.78rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0;
+      box-shadow: 0 12px 35px rgba(201, 130, 134, 0.22);
+    }
+
+    .serif {
+      font-family: var(--serif);
+      font-weight: 500;
+      letter-spacing: 0;
+      line-height: 0.95;
+    }
+
+    .rose {
+      color: var(--rose);
+      font-weight: 700;
+    }
+
+    .btn {
+      display: inline-flex;
+      min-height: 58px;
+      align-items: center;
+      justify-content: center;
+      border: 0;
+      border-radius: 8px;
+      padding: 17px 30px;
+      background: linear-gradient(135deg, var(--rose), #d89599);
+      color: #fff;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0;
+      line-height: 1.16;
+      text-align: center;
+      white-space: normal;
+      cursor: pointer;
+      box-shadow: 0 18px 38px rgba(158, 82, 87, 0.26);
+      transition: transform 180ms ease, filter 180ms ease, box-shadow 180ms ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px) scale(1.015);
+      filter: brightness(1.06);
+      box-shadow: 0 22px 48px rgba(158, 82, 87, 0.34);
+    }
+
+    .btn.dark {
+      background: linear-gradient(135deg, #090909, #221715);
+      box-shadow: 0 18px 38px rgba(0, 0, 0, 0.24);
+    }
+
+    .fade-up {
+      opacity: 0;
+      transform: translateY(22px);
+      animation: fadeUp 800ms ease forwards;
+    }
+
+    .delay-1 {
+      animation-delay: 120ms;
+    }
+
+    .delay-2 {
+      animation-delay: 240ms;
+    }
+
+    .delay-3 {
+      animation-delay: 360ms;
+    }
+
+    @keyframes fadeUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .icon {
+      width: 32px;
+      height: 32px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex: 0 0 auto;
+    }
+
+    .icon-solid {
+      width: 30px;
+      height: 30px;
+      fill: currentColor;
+      flex: 0 0 auto;
+    }
+
+    .hero {
+      min-height: 720px;
+      display: grid;
+      align-items: center;
+      padding: 72px 0 62px;
+      background:
+        radial-gradient(circle at 70% 30%, rgba(201, 130, 134, 0.18), transparent 28%),
+        radial-gradient(circle at 28% 78%, rgba(198, 154, 114, 0.16), transparent 32%),
+        linear-gradient(115deg, #070707 0%, #11100f 42%, #1c130f 100%);
+    }
+
+    .hero::before,
+    .dark-texture::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(125deg, rgba(255, 255, 255, 0.05), transparent 22%, rgba(198, 154, 114, 0.08) 46%, transparent 68%),
+        repeating-linear-gradient(105deg, rgba(255, 255, 255, 0.025) 0 1px, transparent 1px 12px);
+      opacity: 0.42;
+      pointer-events: none;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 0.86fr 1.14fr;
+      align-items: center;
+      gap: 44px;
+    }
+
+    .hero h1 {
+      max-width: 620px;
+      margin: 24px 0 22px;
+      font-size: clamp(3.15rem, 6.5vw, 6.9rem);
+    }
+
+    .hero .lead {
+      max-width: 540px;
+      margin: 0 0 20px;
+      color: #fff;
+      font-size: 1.05rem;
+      font-weight: 750;
+      text-transform: uppercase;
+      line-height: 1.45;
+    }
+
+    .hero .sublead {
+      max-width: 540px;
+      margin: 0 0 34px;
+      color: var(--text);
+      font-size: 1.02rem;
+    }
+
+    .hero-actions {
+      display: grid;
+      gap: 12px;
+      justify-items: start;
+    }
+
+    .secure {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      color: #eee4df;
+      font-size: 0.9rem;
+    }
+
+    .secure svg {
+      width: 15px;
+      height: 15px;
+      fill: var(--rose-soft);
+    }
+
+    .hero-visual {
+      position: relative;
+      min-height: 520px;
+      display: grid;
+      place-items: center;
+    }
+
+    .hero-image {
+      width: min(760px, 100%);
+      border-radius: 0;
+      filter: drop-shadow(0 34px 70px rgba(0, 0, 0, 0.48));
+    }
+
+    .image-fallback {
+      display: grid;
+      min-height: 360px;
+      place-items: center;
+      border: 1px solid rgba(201, 130, 134, 0.36);
+      border-radius: 14px;
+      background:
+        radial-gradient(circle at 22% 20%, rgba(201, 130, 134, 0.22), transparent 30%),
+        linear-gradient(135deg, #120e0d, #2b1a17);
+      color: var(--gold);
+      font-family: var(--serif);
+      font-size: clamp(2rem, 5vw, 4rem);
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+    }
+
+    .about {
+      background: linear-gradient(135deg, var(--cream), #fff8f2);
+      color: var(--ink);
+    }
+
+    .about-panel,
+    .benefits-panel {
+      padding: 72px clamp(24px, 6vw, 84px);
+    }
+
+    .about h2,
+    .benefits h2,
+    .testimonials h2,
+    .audience h2,
+    .receive h2,
+    .bonus h2,
+    .pricing h2,
+    .faq h2 {
+      margin: 0 0 24px;
+      font-family: var(--serif);
+      font-size: clamp(2.2rem, 4vw, 3.7rem);
+      font-weight: 500;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .about p {
+      max-width: 540px;
+      margin: 0 0 28px;
+      color: #3d302c;
+    }
+
+    .mockup-wrap {
+      margin-top: 18px;
+      max-width: 560px;
+    }
+
+    .mockup-wrap img {
+      border-radius: 10px;
+      filter: drop-shadow(0 24px 48px rgba(42, 30, 25, 0.24));
+    }
+
+    .check-list {
+      display: grid;
+      align-content: center;
+      gap: 24px;
+      padding-top: 84px;
+    }
+
+    .check-item {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      color: var(--ink);
+      font-weight: 650;
+    }
+
+    .check {
+      display: inline-grid;
+      width: 36px;
+      height: 36px;
+      place-items: center;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--rose), #c49a98);
+      color: #fff;
+      font-weight: 900;
+      box-shadow: 0 12px 25px rgba(201, 130, 134, 0.25);
+      flex: 0 0 auto;
+    }
+
+    .benefits {
+      background:
+        radial-gradient(circle at 84% 14%, rgba(201, 130, 134, 0.13), transparent 30%),
+        linear-gradient(135deg, #090909, #1a1615);
+      color: var(--text);
+    }
+
+    .benefits-panel {
+      border-left: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .benefit-list {
+      display: grid;
+      gap: 26px;
+      max-width: 560px;
+    }
+
+    .benefit {
+      display: grid;
+      grid-template-columns: 68px 1fr;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .benefit-icon,
+    .audience-icon,
+    .bonus-icon {
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--rose), #d6a2a4);
+      color: #fff;
+      box-shadow: 0 18px 34px rgba(0, 0, 0, 0.2);
+    }
+
+    .benefit-icon {
+      width: 64px;
+      height: 64px;
+    }
+
+    .benefit h3,
+    .audience h3,
+    .bonus h3 {
+      margin: 0 0 4px;
+      color: var(--rose-soft);
+      font-size: 1.02rem;
+      line-height: 1.2;
+    }
+
+    .benefit p,
+    .audience p,
+    .bonus p,
+    .receive li,
+    .faq p {
+      margin: 0;
+      color: #f1e8e3;
+    }
+
+    .urgency {
+      padding: 36px 0;
+      background:
+        linear-gradient(90deg, rgba(201, 130, 134, 0.15), transparent 26%),
+        linear-gradient(135deg, #171313, #0b0a0a);
+      border-top: 1px solid rgba(255, 255, 255, 0.07);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    .urgency-grid {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 26px;
+    }
+
+    .urgency-icon {
+      width: 86px;
+      height: 86px;
+      color: var(--rose);
+      opacity: 0.95;
+    }
+
+    .urgency h2 {
+      margin: 0 0 8px;
+      font-size: clamp(1.55rem, 3vw, 2.25rem);
+      font-weight: 450;
+      line-height: 1.12;
+      text-transform: uppercase;
+    }
+
+    .urgency p {
+      margin: 0;
+      color: #eee2dd;
+      font-size: 1.02rem;
+    }
+
+    .testimonials,
+    .bonus,
+    .pricing {
+      background:
+        radial-gradient(circle at 8% 0%, rgba(201, 130, 134, 0.16), transparent 28%),
+        linear-gradient(135deg, #fbf2eb, var(--cream-2));
+      color: var(--ink);
+      padding: 48px 0 58px;
+    }
+
+    .center-title {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      text-align: center;
+    }
+
+    .center-title::before,
+    .center-title::after {
+      content: "";
+      height: 1px;
+      width: min(180px, 20vw);
+      background: rgba(201, 130, 134, 0.42);
+    }
+
+    .testimonial-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+
+    .testimonial-card {
+      display: grid;
+      grid-template-columns: 106px 1fr;
+      gap: 18px;
+      align-items: center;
+      min-height: 190px;
+      padding: 24px;
+      border: 1px solid rgba(201, 130, 134, 0.45);
+      border-radius: 8px;
+      background: rgba(255, 249, 246, 0.65);
+      box-shadow: 0 18px 38px rgba(76, 46, 38, 0.08);
+    }
+
+    .portrait {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      object-fit: cover;
+      background:
+        radial-gradient(circle at 50% 22%, #f1c7b5 0 18%, transparent 19%),
+        radial-gradient(circle at 50% 42%, #6f463b 0 30%, transparent 31%),
+        linear-gradient(135deg, #c98286, #f2d6c8);
+      border: 3px solid rgba(255, 255, 255, 0.78);
+    }
+
+    .stars {
+      color: var(--rose);
+      font-size: 1.2rem;
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+    }
+
+    .testimonial-card blockquote {
+      margin: 0 0 12px;
+      color: #3a2824;
+      font-size: 1.08rem;
+      line-height: 1.32;
+    }
+
+    .testimonial-card cite {
+      color: #4d3933;
+      font-style: normal;
+      font-size: 0.9rem;
+    }
+
+    .dark-pair {
+      background:
+        radial-gradient(circle at 92% 64%, rgba(201, 130, 134, 0.14), transparent 25%),
+        linear-gradient(135deg, #141111, #080807);
+      color: var(--text);
+    }
+
+    .dark-pair-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+    }
+
+    .audience,
+    .receive {
+      padding: 56px clamp(22px, 5vw, 70px);
+    }
+
+    .audience {
+      border-right: 1px solid rgba(255, 255, 255, 0.09);
+    }
+
+    .audience-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 22px;
+      text-align: center;
+    }
+
+    .audience-icon {
+      width: 62px;
+      height: 62px;
+      margin: 0 auto 14px;
+      background: transparent;
+      color: var(--rose);
+      box-shadow: none;
+    }
+
+    .audience h3 {
+      min-height: 45px;
+      color: var(--rose-soft);
+    }
+
+    .audience p {
+      font-size: 0.92rem;
+    }
+
+    .receive {
+      position: relative;
+    }
+
+    .receive::after {
+      content: "";
+      position: absolute;
+      right: 24px;
+      bottom: -42px;
+      width: 240px;
+      height: 240px;
+      border: 16px solid rgba(201, 130, 134, 0.11);
+      border-radius: 24px;
+      transform: rotate(-12deg);
+    }
+
+    .receive ul,
+    .price-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 13px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .receive li,
+    .price-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 11px;
+    }
+
+    .receive .check,
+    .price-list .check {
+      width: 24px;
+      height: 24px;
+      font-size: 0.78rem;
+      margin-top: 1px;
+    }
+
+    .bonus {
+      padding-top: 34px;
+      padding-bottom: 34px;
+    }
+
+    .bonus-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 26px;
+      border-top: 1px solid rgba(201, 130, 134, 0.35);
+      border-bottom: 1px solid rgba(201, 130, 134, 0.35);
+      padding: 22px 0;
+    }
+
+    .bonus-card {
+      display: grid;
+      grid-template-columns: 58px 1fr;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .bonus-icon {
+      width: 54px;
+      height: 54px;
+      border-radius: 8px;
+      background: rgba(201, 130, 134, 0.12);
+      color: var(--rose);
+      box-shadow: none;
+    }
+
+    .bonus h3 {
+      color: var(--rose);
+      font-size: 0.9rem;
+      text-transform: uppercase;
+    }
+
+    .bonus p {
+      color: var(--ink);
+      line-height: 1.22;
+    }
+
+    .pricing {
+      padding-top: 8px;
+      padding-bottom: 62px;
+    }
+
+    .pricing h2 {
+      margin-bottom: 18px;
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: 0.9fr 1.2fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .price-card {
+      position: relative;
+      padding: 36px clamp(24px, 4vw, 54px);
+      border: 1px solid rgba(41, 29, 24, 0.22);
+      border-radius: 8px;
+      background: rgba(255, 249, 246, 0.64);
+      box-shadow: 0 20px 45px rgba(70, 43, 34, 0.08);
+    }
+
+    .price-card.featured {
+      background:
+        radial-gradient(circle at 92% 8%, rgba(201, 130, 134, 0.18), transparent 34%),
+        linear-gradient(135deg, #070707, #171312);
+      color: var(--text);
+      border: 2px solid var(--rose);
+      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.28);
+    }
+
+    .popular {
+      position: absolute;
+      top: -17px;
+      left: 50%;
+      transform: translateX(-50%);
+      min-width: 190px;
+      padding: 7px 16px;
+      border-radius: 5px;
+      background: linear-gradient(135deg, var(--rose), #d59a9d);
+      color: #fff;
+      text-align: center;
+      font-size: 0.82rem;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .price-card h3 {
+      margin: 0;
+      color: var(--rose);
+      text-align: center;
+      font-size: 1.5rem;
+      text-transform: uppercase;
+    }
+
+    .price-card .subtitle {
+      margin: 2px 0 26px;
+      text-align: center;
+      color: inherit;
+    }
+
+    .price-body {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .value {
+      min-width: 185px;
+      border-left: 1px solid rgba(255, 255, 255, 0.24);
+      padding-left: 28px;
+    }
+
+    .basic-value {
+      text-align: center;
+      margin-top: 28px;
+    }
+
+    .old-price {
+      color: inherit;
+      opacity: 0.84;
+      text-decoration: line-through;
+      margin: 0;
+    }
+
+    .today {
+      margin: 0;
+      color: var(--rose-soft);
+      font-weight: 800;
+    }
+
+    .installments {
+      margin: 0;
+      color: var(--rose-soft);
+      font-size: 1.55rem;
+      font-weight: 950;
+      line-height: 1.1;
+    }
+
+    .price {
+      font-size: 4rem;
+      font-weight: 950;
+      color: #090909;
+      line-height: 1;
+    }
+
+    .featured .price-list li,
+    .featured .subtitle {
+      color: var(--text);
+    }
+
+    .price-card .btn {
+      width: min(100%, 360px);
+      margin: 28px auto 0;
+      display: flex;
+    }
+
+    .faq {
+      padding: 46px 0 54px;
+      background:
+        radial-gradient(circle at 8% 10%, rgba(201, 130, 134, 0.14), transparent 28%),
+        linear-gradient(135deg, #141111, #080807);
+    }
+
+    .faq h2 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .faq-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .faq-item {
+      border: 1px solid rgba(201, 130, 134, 0.25);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.035);
+      overflow: hidden;
+    }
+
+    .faq-question {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 18px;
+      border: 0;
+      background: transparent;
+      color: #fff;
+      font: inherit;
+      font-weight: 800;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .faq-question span {
+      color: var(--rose-soft);
+      font-size: 1.3rem;
+      transition: transform 180ms ease;
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 260ms ease;
+    }
+
+    .faq-answer p {
+      padding: 0 18px 18px;
+      color: #ded0ca;
+      font-size: 0.92rem;
+    }
+
+    .faq-item.open .faq-answer {
+      max-height: 150px;
+    }
+
+    .faq-item.open .faq-question span {
+      transform: rotate(45deg);
+    }
+
+    .final {
+      min-height: 285px;
+      padding: 46px 0 34px;
+      background:
+        linear-gradient(90deg, rgba(250, 226, 219, 0.15), rgba(201, 130, 134, 0.35)),
+        linear-gradient(135deg, #f4d8ce, #f0aeb5);
+      color: var(--ink);
+    }
+
+    .final::before {
+      content: "";
+      position: absolute;
+      inset: auto auto 0 0;
+      width: min(43vw, 510px);
+      height: 100%;
+      background:
+        linear-gradient(90deg, rgba(244, 216, 206, 0) 65%, rgba(244, 216, 206, 0.9)),
+        var(--final-image, radial-gradient(circle at 30% 54%, rgba(111, 63, 43, 0.22), transparent 36%));
+      background-size: cover;
+      background-position: left bottom;
+      opacity: 0.88;
+    }
+
+    .final-content {
+      display: grid;
+      justify-items: center;
+      gap: 14px;
+      max-width: 760px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .final p {
+      margin: 0;
+      color: #4a332e;
+      font-size: 1.05rem;
+    }
+
+    .final h2 {
+      margin: 0 0 2px;
+      font-family: var(--serif);
+      font-size: clamp(2rem, 4vw, 3.7rem);
+      font-weight: 500;
+      line-height: 1;
+    }
+
+    .final .btn {
+      min-height: 48px;
+      width: min(440px, 100%);
+      background: linear-gradient(135deg, #090909, #1b1211);
+    }
+
+    .final .secure {
+      color: #5d3b36;
+    }
+
+    @media (max-width: 980px) {
+      .hero {
+        min-height: auto;
+        padding-top: 56px;
+      }
+
+      .hero-grid,
+      .split,
+      .dark-pair-grid,
+      .pricing-grid,
+      .price-body {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-visual {
+        min-height: auto;
+      }
+
+      .about-panel,
+      .benefits-panel {
+        padding: 54px 24px;
+      }
+
+      .check-list {
+        padding-top: 0;
+      }
+
+      .urgency-grid {
+        grid-template-columns: 1fr;
+        text-align: center;
+        justify-items: center;
+      }
+
+      .testimonial-grid,
+      .faq-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .dark-pair .container {
+        width: 100%;
+      }
+
+      .audience {
+        border-right: 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+      }
+
+      .audience-grid,
+      .bonus-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .value {
+        border-left: 0;
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+        padding-left: 0;
+        padding-top: 22px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .container {
+        width: min(100% - 28px, 1180px);
+      }
+
+      .hero {
+        padding: 42px 0 44px;
+      }
+
+      .hero h1 {
+        font-size: clamp(2.35rem, 12vw, 3.3rem);
+        line-height: 1.03;
+        overflow-wrap: anywhere;
+      }
+
+      .hero .lead,
+      .hero .sublead {
+        font-size: 0.95rem;
+      }
+
+      .btn {
+        width: 100%;
+        padding-left: 18px;
+        padding-right: 18px;
+        text-align: center;
+      }
+
+      .hero-actions {
+        justify-items: stretch;
+      }
+
+      .secure {
+        justify-content: center;
+      }
+
+      .about h2,
+      .benefits h2,
+      .testimonials h2,
+      .audience h2,
+      .receive h2,
+      .bonus h2,
+      .pricing h2,
+      .faq h2 {
+        font-size: 2.05rem;
+      }
+
+      .center-title::before,
+      .center-title::after {
+        width: 38px;
+      }
+
+      .benefit {
+        grid-template-columns: 54px 1fr;
+      }
+
+      .benefit-icon {
+        width: 52px;
+        height: 52px;
+      }
+
+      .testimonial-card {
+        grid-template-columns: 1fr;
+        text-align: center;
+        justify-items: center;
+      }
+
+      .audience-grid,
+      .bonus-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .bonus-card {
+        align-items: start;
+      }
+
+      .price-card {
+        padding: 34px 18px;
+      }
+
+      .price {
+        font-size: 3.4rem;
+      }
+
+      .final::before {
+        width: 100%;
+        opacity: 0.18;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Hero principal -->
+  <header class="section hero dark-texture">
+    <div class="container hero-grid">
+      <div class="hero-copy fade-up">
+        <span class="eyebrow">Agenda Explosiva</span>
+        <h1 class="serif">O Método 3D para <span class="rose">Dobrar</span> Seus Agendamentos</h1>
+        <p class="lead">Pare de depender apenas de indicação e descubra o método que pode aumentar seus agendamentos como designer de sobrancelha.</p>
+        <p class="sublead">Mesmo que você poste todos os dias e sinta que poucas pessoas agendam, o Método 3D mostra como despertar interesse, se destacar e aumentar suas oportunidades de agendamento.</p>
+        <div class="hero-actions">
+          <a class="btn" href="#comprar">Quero aumentar meus agendamentos agora</a>
+          <span class="secure">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 10H7V8a5 5 0 0 1 10 0v2Zm-8 0h6V8a3 3 0 0 0-6 0v2Zm-2 2h10a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1Z"/></svg>
+            Acesso imediato
+          </span>
+        </div>
+      </div>
+      <div class="hero-visual fade-up delay-2">
+        <picture>
+          <img class="hero-image" src="assets/hero-agenda-explosiva.png" alt="Produto Agenda Explosiva com celular e agenda cheia" onerror="this.replaceWith(createFallback('Agenda Explosiva'))">
+        </picture>
+      </div>
+    </div>
+  </header>
+
+    <!-- O que é o Agenda Explosiva -->
+  <main>
+    <section class="section about">
+      <div class="split">
+        <div class="about-panel fade-up">
+          <h2>O que é o <span class="rose">Agenda Explosiva?</span></h2>
+          <p>Agenda Explosiva é um treinamento rápido e direto criado para designers de sobrancelha que desejam aumentar a entrada de clientes através de estratégias simples de posicionamento e comunicação.</p>
+          <div class="mockup-wrap">
+            <img src="assets/mockup-curso.jpg" alt="Mockup do curso Agenda Explosiva em notebook, tablet, celular e livro" onerror="this.replaceWith(createFallback('Mockup do curso'))">
+          </div>
+        </div>
+        <div class="about-panel check-list fade-up delay-1">
+          <div class="check-item"><span class="check">✓</span>Como despertar desejo</div>
+          <div class="check-item"><span class="check">✓</span>Como se diferenciar</div>
+          <div class="check-item"><span class="check">✓</span>Como incentivar mais agendamentos</div>
+          <div class="check-item"><span class="check">✓</span>Como aplicar rapidamente</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- O que pode mudar -->
+    <section class="section benefits dark-texture">
+      <div class="split">
+        <div class="benefits-panel"></div>
+        <div class="benefits-panel fade-up">
+          <h2>O que pode mudar quando você aplica o <span class="rose">Método 3D</span></h2>
+          <div class="benefit-list">
+            <article class="benefit">
+              <span class="benefit-icon">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M7 3v3M17 3v3M4 9h16M5 5h14a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Z"/><path d="M8 13h2M12 13h2M16 13h1M8 17h2M12 17h2"/></svg>
+              </span>
+              <div>
+                <h3>Mais oportunidades de agendamento</h3>
+                <p>Aprenda estratégias que podem aumentar o interesse das clientes.</p>
+              </div>
+            </article>
+            <article class="benefit">
+              <span class="benefit-icon">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M8 2h8a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Z"/><path d="M10 18h4"/></svg>
+              </span>
+              <div>
+                <h3>Conteúdo com mais intenção</h3>
+                <p>Saiba o que publicar para gerar conexão.</p>
+              </div>
+            </article>
+            <article class="benefit">
+              <span class="benefit-icon">
+                <svg class="icon-solid" viewBox="0 0 24 24"><path d="m12 2.8 2.8 5.7 6.3.9-4.55 4.43 1.08 6.27L12 17.14 6.37 20.1l1.08-6.27L2.9 9.4l6.3-.9L12 2.8Z"/></svg>
+              </span>
+              <div>
+                <h3>Posicionamento mais forte</h3>
+                <p>Passe a ser lembrada pelas clientes.</p>
+              </div>
+            </article>
+            <article class="benefit">
+              <span class="benefit-icon">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M8 8h8l3 5a6 6 0 0 1-6 8h-2a6 6 0 0 1-6-8l3-5Z"/><path d="M9 8 7 3l4 2 1-2 1 2 4-2-2 5M12 12v5M10 14h4"/></svg>
+              </span>
+              <div>
+                <h3>Mais previsibilidade</h3>
+                <p>Diminua a sensação de depender apenas da sorte.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Urgencia -->
+    <section class="section urgency">
+      <div class="container urgency-grid fade-up">
+        <svg class="urgency-icon" viewBox="0 0 64 64" aria-hidden="true">
+          <path d="M17 8v8M39 8v8M10 20h38M12 12h40v33a6 6 0 0 1-6 6H12V12Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="45" cy="45" r="13" fill="#151211" stroke="currentColor" stroke-width="3"/>
+          <path d="M45 38v8l5 3" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+        <div>
+          <h2>Quantas clientes você pode estar perdendo por <span class="rose">não ter um processo?</span></h2>
+          <p>Cada dia sem estratégia é mais um dia deixando oportunidades passarem.</p>
+        </div>
+        <a class="btn" href="#comprar">Quero começar agora</a>
+      </div>
+    </section>
+
+    <!-- Feedbacks -->
+    <section class="section testimonials">
+      <div class="container">
+        <h2 class="center-title">O que estão falando</h2>
+        <div class="testimonial-grid">
+          <article class="testimonial-card fade-up">
+            <img class="portrait" src="assets/depoimento-juliana.png" alt="Juliana M." onerror="this.removeAttribute('src')">
+            <div>
+              <div class="stars">★★★★★</div>
+              <blockquote>“Comecei a mudar a forma dos meus stories e senti muito mais interação.”</blockquote>
+              <cite>Juliana M.</cite>
+            </div>
+          </article>
+          <article class="testimonial-card fade-up delay-1">
+            <img class="portrait" src="assets/depoimento-ana.png" alt="Ana C." onerror="this.removeAttribute('src')">
+            <div>
+              <div class="stars">★★★★★</div>
+              <blockquote>“Passei a entender melhor como conversar com minhas clientes.”</blockquote>
+              <cite>Ana C.</cite>
+            </div>
+          </article>
+          <article class="testimonial-card fade-up delay-2">
+            <img class="portrait" src="assets/depoimento-larissa.png" alt="Larissa R." onerror="this.removeAttribute('src')">
+            <div>
+              <div class="stars">★★★★★</div>
+              <blockquote>“As aulas são rápidas e objetivas.”</blockquote>
+              <cite>Larissa R.</cite>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Publico e entregaveis -->
+    <section class="section dark-pair dark-texture">
+      <div class="container dark-pair-grid">
+        <div class="audience fade-up">
+          <h2>Esse treinamento é para você que:</h2>
+          <div class="audience-grid">
+            <article>
+              <span class="audience-icon"><svg class="icon" viewBox="0 0 24 24"><path d="M8 2h8a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Z"/><path d="M10 18h4"/></svg></span>
+              <h3>Posta todos os dias</h3>
+              <p>Mas sente que o retorno é baixo.</p>
+            </article>
+            <article>
+              <span class="audience-icon"><svg class="icon" viewBox="0 0 24 24"><path d="M7 3v3M17 3v3M4 9h16M5 5h14a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Z"/></svg></span>
+              <h3>Tem horários vagos</h3>
+              <p>E quer aumentar os agendamentos.</p>
+            </article>
+            <article>
+              <span class="audience-icon"><svg class="icon" viewBox="0 0 24 24"><path d="M4 20h16M6 16l4-5 4 3 5-8"/><path d="M15 6h4v4"/></svg></span>
+              <h3>Quer crescer</h3>
+              <p>Sem depender apenas de indicação.</p>
+            </article>
+            <article>
+              <span class="audience-icon"><svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><path d="M18 6 21 3M16 3h5v5"/></svg></span>
+              <h3>Busca mais posicionamento</h3>
+              <p>E deseja ser lembrada pelas clientes.</p>
+            </article>
+          </div>
+        </div>
+        <div class="receive fade-up delay-1">
+          <h2>Tudo o que você recebe</h2>
+          <ul>
+            <li><span class="check">✓</span>Aula 1: O erro que faz muitas profissionais perderem oportunidades</li>
+            <li><span class="check">✓</span>Aula 2: Primeiro passo do Método 3D</li>
+            <li><span class="check">✓</span>Aula 3: Como gerar destaque e incentivar decisões</li>
+            <li><span class="check">✓</span>Aula 4: Plano de aplicação rápida</li>
+            <li><span class="check">✓</span>Acesso imediato</li>
+            <li><span class="check">✓</span>Conteúdo direto ao ponto</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bônus -->
+    <section class="section bonus">
+      <div class="container">
+        <h2 class="center-title">Bônus exclusivos</h2>
+        <div class="bonus-grid">
+          <article class="bonus-card">
+            <span class="bonus-icon"><svg class="icon" viewBox="0 0 24 24"><path d="M4 11h16v10H4zM3 7h18v4H3zM12 7v14M12 7H8.5a2.5 2.5 0 1 1 2.1-3.85L12 7Zm0 0h3.5a2.5 2.5 0 1 0-2.1-3.85L12 7Z"/></svg></span>
+            <div><h3>Bônus 1</h3><p>50 frases prontas para posts e stories</p></div>
+          </article>
+          <article class="bonus-card">
+            <span class="bonus-icon"><svg class="icon" viewBox="0 0 24 24"><path d="M4 11h16v10H4zM3 7h18v4H3zM12 7v14M12 7H8.5a2.5 2.5 0 1 1 2.1-3.85L12 7Zm0 0h3.5a2.5 2.5 0 1 0-2.1-3.85L12 7Z"/></svg></span>
+            <div><h3>Bônus 2</h3><p>Modelos simples de mensagens para WhatsApp</p></div>
+          </article>
+          <article class="bonus-card">
+            <span class="bonus-icon"><svg class="icon" viewBox="0 0 24 24"><path d="M4 11h16v10H4zM3 7h18v4H3zM12 7v14M12 7H8.5a2.5 2.5 0 1 1 2.1-3.85L12 7Zm0 0h3.5a2.5 2.5 0 1 0-2.1-3.85L12 7Z"/></svg></span>
+            <div><h3>Bônus 3</h3><p>Checklist Agenda Lotada</p></div>
+          </article>
+          <article class="bonus-card">
+            <span class="bonus-icon"><svg class="icon" viewBox="0 0 24 24"><path d="M4 11h16v10H4zM3 7h18v4H3zM12 7v14M12 7H8.5a2.5 2.5 0 1 1 2.1-3.85L12 7Zm0 0h3.5a2.5 2.5 0 1 0-2.1-3.85L12 7Z"/></svg></span>
+            <div><h3>Bônus 4</h3><p>Calendário simples de ideias de conteúdo</p></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Oferta -->
+    <section class="section pricing" id="comprar">
+      <div class="container">
+        <h2 class="center-title">Escolha sua opção</h2>
+        <div class="pricing-grid">
+          <article class="price-card fade-up">
+            <h3>Plano Básico</h3>
+            <p class="subtitle">Treinamento Agenda Explosiva</p>
+            <ul class="price-list">
+              <li><span class="check">✓</span>Produto principal</li>
+              <li><span class="check">✓</span>Acesso imediato</li>
+            </ul>
+            <div class="basic-value">
+              <p class="old-price">De R$97</p>
+              <p>Por apenas:</p>
+              <strong class="price">R$17</strong>
+            </div>
+            <a class="btn" href="#comprar">Quero o Plano Básico</a>
+          </article>
+          <article class="price-card featured fade-up delay-1">
+            <span class="popular">Mais escolhido</span>
+            <h3>Plano Completo</h3>
+            <p class="subtitle">Treinamento Agenda Explosiva</p>
+            <div class="price-body">
+              <ul class="price-list">
+                <li><span class="check">✓</span>Produto principal</li>
+                <li><span class="check">✓</span>Todos os bônus</li>
+                <li><span class="check">✓</span>Material complementar</li>
+                <li><span class="check">✓</span>Checklist</li>
+                <li><span class="check">✓</span>Frases prontas</li>
+                <li><span class="check">✓</span>Modelos de mensagens</li>
+              </ul>
+              <div class="value">
+                <p>Valor total:</p>
+                <p>Treinamento: R$97</p>
+                <p>Bônus: R$127</p>
+                <p>Total: R$224</p>
+                <p class="today">Hoje:</p>
+                <p class="installments">12x de R$2,90</p>
+                <p>ou R$27 à vista</p>
+              </div>
+            </div>
+            <a class="btn" href="#comprar">Quero o Plano Completo</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section faq">
+      <div class="container">
+        <h2>Perguntas frequentes</h2>
+        <div class="faq-grid">
+          <article class="faq-item open">
+            <button class="faq-question" type="button">Preciso ter muitos seguidores?<span>+</span></button>
+            <div class="faq-answer"><p>Não. O método foi pensado para aplicação simples.</p></div>
+          </article>
+          <article class="faq-item">
+            <button class="faq-question" type="button">Sou iniciante, funciona para mim?<span>+</span></button>
+            <div class="faq-answer"><p>Sim. O conteúdo é direto e pode ser aplicado por iniciantes.</p></div>
+          </article>
+          <article class="faq-item">
+            <button class="faq-question" type="button">Em quanto tempo recebo acesso?<span>+</span></button>
+            <div class="faq-answer"><p>Imediatamente após a confirmação do pagamento.</p></div>
+          </article>
+          <article class="faq-item">
+            <button class="faq-question" type="button">Vou ter acesso para sempre?<span>+</span></button>
+            <div class="faq-answer"><p>Depende da configuração escolhida na plataforma.</p></div>
+          </article>
+          <article class="faq-item">
+            <button class="faq-question" type="button">Tem garantia?<span>+</span></button>
+            <div class="faq-answer"><p>Sim. Você terá garantia de 7 dias.</p></div>
+          </article>
+          <article class="faq-item">
+            <button class="faq-question" type="button">Como vou assistir?<span>+</span></button>
+            <div class="faq-answer"><p>Você receberá acesso online pelo celular, tablet ou computador.</p></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Chamada final -->
+    <section class="section final">
+      <div class="container final-content fade-up">
+        <p>Você não precisa continuar dependendo apenas de indicação ou esperar a agenda encher sozinha.</p>
+        <h2>Clique abaixo e comece agora.</h2>
+        <a class="btn dark" href="#comprar">Quero ter acesso imediato</a>
+        <span class="secure">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 10H7V8a5 5 0 0 1 10 0v2Zm-8 0h6V8a3 3 0 0 0-6 0v2Zm-2 2h10a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1Z"/></svg>
+          Acesso imediato e seguro
+        </span>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    function createFallback(text) {
+      const fallback = document.createElement("div");
+      fallback.className = "image-fallback";
+      fallback.textContent = text;
+      return fallback;
+    }
+
+    const finalImage = new Image();
+    finalImage.onload = () => {
+      document.documentElement.style.setProperty("--final-image", "url('assets/final-sobrancelha.png')");
+    };
+    finalImage.src = "assets/final-sobrancelha.png";
+
+    document.querySelectorAll(".faq-question").forEach((button) => {
+      button.addEventListener("click", () => {
+        const item = button.closest(".faq-item");
+        item.classList.toggle("open");
+      });
+    });
+  </script>
+</body>
+</html>

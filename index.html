@@ -2594,10 +2594,10 @@
       }
 
       .hero-image {
-        width: 100%;
-        height: clamp(360px, 31vw, 440px);
-        object-fit: cover;
-        object-position: center 54%;
+        width: min(100%, 500px);
+        height: auto;
+        object-fit: contain;
+        object-position: center;
         transform: none !important;
         transition: box-shadow 180ms ease;
       }
@@ -2607,7 +2607,7 @@
       }
 
       .float-soft {
-        width: min(100%, 640px);
+        width: min(100%, 500px);
         animation: none;
       }
 
@@ -2657,8 +2657,9 @@
       }
 
       .hero-visual-mobile img {
-        max-height: 370px;
-        object-fit: cover;
+        max-height: none;
+        height: auto;
+        object-fit: contain;
         object-position: center;
       }
 
@@ -2707,9 +2708,9 @@
 
       .hero-visual-mobile img {
         width: 100%;
-        height: clamp(210px, 58vw, 235px);
-        object-fit: cover;
-        object-position: center 52%;
+        height: auto;
+        object-fit: contain;
+        object-position: center;
       }
 
       .hero .lead,

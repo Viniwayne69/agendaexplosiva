@@ -2576,16 +2576,21 @@
     }
 
     @media (min-width: 981px) {
+      .hero {
+        padding-top: clamp(18px, 2.2vw, 34px);
+      }
+
       .hero .container {
         width: min(1540px, calc(100% - 72px));
       }
 
       .hero-copy {
-        transform: translateY(-46px);
+        transform: none;
       }
 
       .hero-grid {
         grid-template-columns: minmax(520px, 720px) minmax(520px, 680px);
+        align-items: start;
         justify-content: space-between;
         gap: clamp(34px, 3.4vw, 64px);
       }
@@ -2715,6 +2720,28 @@
       .hero-actions .btn {
         width: min(100%, 440px);
       }
+    }
+
+    .dark-pair .container.dark-pair-grid {
+      width: min(1520px, calc(100% - 72px));
+      margin: 0 auto;
+    }
+
+    .dark-pair-grid {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 0.96fr);
+      gap: clamp(28px, 3vw, 48px);
+    }
+
+    .audience,
+    .receive {
+      padding-left: clamp(28px, 3vw, 46px);
+      padding-right: clamp(28px, 3vw, 46px);
+    }
+
+    .audience h2,
+    .receive h2 {
+      overflow-wrap: normal;
+      text-wrap: balance;
     }
 
     @media (max-width: 640px) {

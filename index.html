@@ -2594,11 +2594,26 @@
       }
 
       .hero-image {
-        width: min(100%, 640px);
+        width: 100%;
+        height: clamp(360px, 31vw, 440px);
+        object-fit: cover;
+        object-position: center 54%;
+        transform: none !important;
+        transition: box-shadow 180ms ease;
       }
 
       .hero-actions .btn {
         width: min(100%, 470px);
+      }
+
+      .float-soft {
+        width: min(100%, 640px);
+        animation: none;
+      }
+
+      .hero-image:hover,
+      .mockup-wrap img {
+        transform: none !important;
       }
     }
 
@@ -2692,9 +2707,9 @@
 
       .hero-visual-mobile img {
         width: 100%;
-        height: clamp(188px, 52vw, 215px);
+        height: clamp(210px, 58vw, 235px);
         object-fit: cover;
-        object-position: center;
+        object-position: center 52%;
       }
 
       .hero .lead,

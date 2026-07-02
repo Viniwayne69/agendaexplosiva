@@ -2744,12 +2744,38 @@
       text-wrap: balance;
     }
 
+    @media (max-width: 980px) {
+      .dark-pair .container.dark-pair-grid {
+        width: min(100% - 32px, 720px);
+        grid-template-columns: 1fr;
+        gap: 18px;
+      }
+
+      .audience,
+      .receive {
+        padding-left: clamp(18px, 5vw, 28px);
+        padding-right: clamp(18px, 5vw, 28px);
+      }
+    }
+
     @media (max-width: 640px) {
       .container,
       .about .split,
       .benefits .split,
       .dark-pair-grid {
         width: min(100% - 26px, 560px);
+      }
+
+      .dark-pair .container.dark-pair-grid {
+        width: min(100% - 26px, 560px);
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .audience,
+      .receive {
+        padding-left: 16px;
+        padding-right: 16px;
       }
 
       .conversion-strip {
